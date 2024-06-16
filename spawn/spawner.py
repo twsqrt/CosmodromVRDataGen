@@ -17,8 +17,8 @@ def update_targets(elapsed_time: float) -> None:
 
 def try_find_free_position():
     for _ in range(0, conf.NUMBER_OF_SPAWN_ATTEMPS):
-        x = random.uniform(-1, 1) * conf.BOX_HEIGHT / 2
-        y = random.uniform(-1, 1) * conf.BOX_WIDTH / 2
+        x = random.uniform(-1, 1) * conf.BOX_WIDTH / 2
+        y = random.uniform(-1, 1) * conf.BOX_HEIGHT / 2
 
         overlaps = False
 
