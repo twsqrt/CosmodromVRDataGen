@@ -9,8 +9,8 @@ def converte_target(row: pd.Series) -> dict:
     json['spawnTimeInSeconds'] = row['spawn_time']
     json['spawnPosition'] = {
         'x' : 0,
-        'y' : row['y_pos'],
-        'z' : row['x_pos'],
+        'y' : row['x_pos'],
+        'z' : row['y_pos'],
     }
 
     trajectory = row['trajectory_type']

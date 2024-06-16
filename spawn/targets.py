@@ -28,8 +28,6 @@ class Target:
     def get_traveled_distance_at(self, time: float) -> float:
         lifetime = time - self.spawn_time
         return lifetime * conf.TARGET_SPEED if lifetime > 0 else 0
-   
-    
 
 
 def __zig_zig(t: float) -> float:
@@ -62,8 +60,11 @@ def is_overlaps(time: float, first: Target, second: Target) -> bool:
     x1, y1, z1 = first.get_position_at(time)
     x2, y2, z2 = second.get_position_at(time)
 
-    square_distance = (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
-    return (square_distance > (2 * conf.TARGET_RADIUS) ** 2)
+    square_distance = (x1 - x2) ** 2 + (y1 - y2) ** 2
+    if square_distance > (2 * conf.COLLIDER_RADIUS) ** 2:
+        return False
+
+    return (abs(z1 - z2) < conf.COLIDER_LENGTH)
 
 
 def has_overlaps_on_interval(start_time: float, 

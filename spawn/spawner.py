@@ -9,7 +9,7 @@ __targets_buffer = []
 def update_targets_buffer(elapsed_time: float) -> None:
     for i, target in enumerate(__targets_buffer):
         traveled_distance = target.get_traveled_distance_at(elapsed_time)
-        if traveled_distance > 2 * conf.TARGET_RADIUS:
+        if traveled_distance > conf.COLIDER_LENGTH:
             del __targets_buffer[i]
 
 
@@ -85,21 +85,25 @@ def simulate(simulation_time: float) -> list:
     spawn_data = []
 
     min_time = conf.SPAWN_TIME_INTERVAL - conf.SPAWN_TIME_RANDOM_OFFSET 
-    should_use_buffer = (min_time > 0 and min_time * conf.TARGET_SPEED < 2 * conf.TARGET_RADIUS)
+    should_use_buffer = min_time < 0 or min_time * conf.TARGET_SPEED < conf.COLIDER_LENGTH
 
     while elapsed_time < simulation_time:
         spawn_time = get_spawn_time()
         elapsed_time += spawn_time
         
+        trajectory = get_random_trajectory()
+
         if should_use_buffer:
             update_targets_buffer(elapsed_time)
+            position = try_find_free_position(elapsed_time, trajectory)
 
-        trajectory = get_random_trajectory()
-        position = try_find_free_position(elapsed_time, trajectory) if should_use_buffer else get_random_position()
-
-        if position is not None:
-            x, y, target = position
-            __targets_buffer.append(target)
+            if position is not None:
+                x, y, target = position
+                __targets_buffer.append(target)
+                row = create_data_row(elapsed_time, x, y, trajectory)
+                spawn_data.append(row)
+        else:
+            x, y = get_random_position()
             row = create_data_row(elapsed_time, x, y, trajectory)
             spawn_data.append(row)
     
