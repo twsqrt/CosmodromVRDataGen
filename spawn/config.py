@@ -1,0 +1,29 @@
+# Box size
+BOX_HEIGHT = 50 
+BOX_WIDTH = 100
+
+NUMBER_OF_SPAWN_ATTEMPS = 10
+
+# Targets
+TARGET_SPEED = 100
+TARGET_RADIUS = 10
+
+# Spawn time
+SPAWN_TIME_INTERVAL = 3
+SPAWN_TIME_RANDOM_OFFSET = 1
+
+# Trajectory
+TRAJECTORY_PROBABILITIES = [
+    (0.5, 'Linear'),
+    (0.2, 'HorizontalZigZag'),
+    (0.2, 'VerticalZigZag'),
+    (0.1, 'Spiral'),
+]
+TRAJECTORY_SCALE = 10
+TRAJECTORY_PERIOD = 4
+
+# Rotation
+ADD_ROTATION_PROBABILITY = 0.5
+ROTATION_TIME = 0.5
+ROTATION_PERIOD = 3
+
