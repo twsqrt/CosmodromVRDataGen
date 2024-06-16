@@ -15,10 +15,9 @@ def update_targets_buffer(elapsed_time: float) -> None:
 
 def try_find_free_position(spawn_time: float, trajectory: str):
     for _ in range(0, conf.NUMBER_OF_SPAWN_ATTEMPS):
-        x = random.uniform(-1, 1) * conf.BOX_WIDTH / 2
-        y = random.uniform(-1, 1) * conf.BOX_HEIGHT / 2
+        position = get_random_position()
 
-        new_target = targets.create_target(spawn_time, (x, y), trajectory)
+        new_target = targets.create_target(spawn_time, position, trajectory)
         overlaps = False
 
         for target in __targets_buffer:
@@ -32,6 +31,7 @@ def try_find_free_position(spawn_time: float, trajectory: str):
                 break
         
         if not overlaps:
+            x, y = position
             return (x, y, new_target)
 
     return None
@@ -40,6 +40,13 @@ def try_find_free_position(spawn_time: float, trajectory: str):
 def get_spawn_time() -> float:
     offset = random.uniform(-1, 1) * conf.SPAWN_TIME_RANDOM_OFFSET
     return conf.SPAWN_TIME_INTERVAL + offset
+
+
+def get_random_position() -> tuple:
+    x = random.uniform(-1, 1) * conf.BOX_WIDTH / 2
+    y = random.uniform(-1, 1) * conf.BOX_HEIGHT / 2
+
+    return (x, y)
 
 
 def get_random_trajectory() -> str:
@@ -73,21 +80,22 @@ def create_data_row(
     ]
 
 
-def simulate(simulation_time: float, reset_targets_buffer: bool = False) -> list:
+def simulate(simulation_time: float) -> list:
     elapsed_time = 0
     spawn_data = []
 
-    if reset_targets_buffer:
-        __targets_buffer.clear()
+    min_time = conf.SPAWN_TIME_INTERVAL - 2 * conf.SPAWN_TIME_RANDOM_OFFSET 
+    should_use_buffer = (min_time > 0 and min_time * conf.TARGET_SPEED < 2 * conf.TARGET_RADIUS)
 
     while elapsed_time < simulation_time:
         spawn_time = get_spawn_time()
         elapsed_time += spawn_time
         
-        update_targets_buffer(elapsed_time)
+        if should_use_buffer:
+            update_targets_buffer(elapsed_time)
 
         trajectory = get_random_trajectory()
-        position = try_find_free_position(elapsed_time, trajectory)
+        position = try_find_free_position(elapsed_time, trajectory) if should_use_buffer else get_random_position()
 
         if position is not None:
             x, y, target = position
