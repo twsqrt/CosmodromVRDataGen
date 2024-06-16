@@ -19,8 +19,11 @@ def main():
         'spawn_time',
         'x_pos',
         'y_pos',
+        'trajectory_type',
+        'trajectory_scale',
+        'trajectory_period',
         'has_rotation',
-        'period_between_rotation',
+        'rotation_period',
         'rotation_time',
     ]).to_csv(args.output_file, index=False, sep=';')
 

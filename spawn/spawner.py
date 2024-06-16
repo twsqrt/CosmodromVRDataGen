@@ -1,4 +1,4 @@
-import config as conf
+import spawn.config as conf
 import random
 
 
@@ -34,9 +34,36 @@ def try_find_free_position():
     return None
 
 
-def get_spawn_time():
+def get_spawn_time() -> float:
     offset = random.uniform(-1, 1) * conf.SPAWN_TIME_RANDOM_OFFSET
     return conf.SPAWN_TIME_INTERVAL + offset
+
+
+def get_random_trajectory() -> str:
+    random_value = random.uniform(0, 1)
+    threshold = 0
+
+    for name, prob in conf.TRAJECTORY_PROBABILITIES:
+        threshold += prob
+        if random_value < threshold:
+            return name
+         
+
+def create_data_row(spawn_time: float, x_pos: float, y_pos: float) -> list:
+    trajectory = get_random_trajectory()
+    has_rotation = (random.uniform(0, 1) < conf.ADD_ROTATION_PROBABILITY)
+
+    return [
+        spawn_time, 
+        x_pos, 
+        y_pos, 
+        trajectory, 
+        conf.TRAJECTORY_SCALE,
+        conf.TRAJECTORY_PERIOD,
+        has_rotation,
+        conf.ROTATION_PERIOD,
+        conf.ROTATION_TIME
+    ]
 
 
 def simulate(simulation_time: float, reset_targets_buffer: bool = False) -> list:
@@ -55,8 +82,7 @@ def simulate(simulation_time: float, reset_targets_buffer: bool = False) -> list
 
         if position is not None:
             x, y = position
-            __targets_buffer.append((x, y, 0))
-            spawn_data.append([elapsed_time, x, y, False, 0, 0])
+            row = create_data_row(elapsed_time, x, y)
+            spawn_data.append(row)
     
     return spawn_data
-        

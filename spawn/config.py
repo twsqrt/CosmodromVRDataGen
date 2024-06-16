@@ -14,10 +14,10 @@ SPAWN_TIME_RANDOM_OFFSET = 1
 
 # Trajectory
 TRAJECTORY_PROBABILITIES = [
-    (0.5, 'Linear'),
-    (0.2, 'HorizontalZigZag'),
-    (0.2, 'VerticalZigZag'),
-    (0.1, 'Spiral'),
+    ('Linear', 0.5),
+    ('HorizontalZigZag', 0.2),
+    ('VerticalZigZag', 0.2),
+    ('Spiral', 0.1),
 ]
 TRAJECTORY_SCALE = 10
 TRAJECTORY_PERIOD = 4
