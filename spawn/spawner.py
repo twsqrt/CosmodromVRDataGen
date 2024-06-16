@@ -84,7 +84,7 @@ def simulate(simulation_time: float) -> list:
     elapsed_time = 0
     spawn_data = []
 
-    min_time = conf.SPAWN_TIME_INTERVAL - 2 * conf.SPAWN_TIME_RANDOM_OFFSET 
+    min_time = conf.SPAWN_TIME_INTERVAL - conf.SPAWN_TIME_RANDOM_OFFSET 
     should_use_buffer = (min_time > 0 and min_time * conf.TARGET_SPEED < 2 * conf.TARGET_RADIUS)
 
     while elapsed_time < simulation_time:
