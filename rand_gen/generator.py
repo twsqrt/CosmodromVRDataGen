@@ -1,5 +1,5 @@
-import spawn.config as conf
-import spawn.targets as targets
+import rand_gen.config as conf
+import rand_gen.targets as targets
 import random
 
 
@@ -80,14 +80,14 @@ def create_data_row(
     ]
 
 
-def simulate(simulation_time: float) -> list:
+def generate(time: float) -> list:
     elapsed_time = 0
     spawn_data = []
 
     min_time = conf.SPAWN_TIME_INTERVAL - conf.SPAWN_TIME_RANDOM_OFFSET 
     should_use_buffer = min_time < 0 or min_time * conf.TARGET_SPEED < conf.COLIDER_LENGTH
 
-    while elapsed_time < simulation_time:
+    while elapsed_time < time:
         spawn_time = get_spawn_time()
         elapsed_time += spawn_time
         

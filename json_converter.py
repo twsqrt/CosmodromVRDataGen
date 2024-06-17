@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-import spawn.config as conf
+import rand_gen.config as conf
 import json
 import pandas as pd
 

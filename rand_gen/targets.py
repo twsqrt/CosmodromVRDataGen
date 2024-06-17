@@ -1,4 +1,4 @@
-import spawn.config as conf
+import rand_gen.config as conf
 import math
 
 
@@ -61,10 +61,9 @@ def is_overlaps(time: float, first: Target, second: Target) -> bool:
     x2, y2, z2 = second.get_position_at(time)
 
     square_distance = (x1 - x2) ** 2 + (y1 - y2) ** 2
-    if square_distance > (2 * conf.COLLIDER_RADIUS) ** 2:
-        return False
+    cross_sections_overlap = square_distance > (2 * conf.COLLIDER_RADIUS) ** 2
 
-    return (abs(z1 - z2) < conf.COLIDER_LENGTH)
+    return  cross_sections_overlap and (abs(z1 - z2) < conf.COLIDER_LENGTH) 
 
 
 def has_overlaps_on_interval(start_time: float, 

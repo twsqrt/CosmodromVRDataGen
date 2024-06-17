@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 import pandas as pd
-import spawn.spawner as spawner
+import rand_gen.generator as generator
 
 def parse_args():
     parser = ArgumentParser()
@@ -13,7 +13,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    spawn_data = spawner.simulate(args.simulation_time)
+    spawn_data = generator.generate(args.simulation_time)
 
     pd.DataFrame(spawn_data, columns=[
         'spawn_time',
